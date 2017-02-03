@@ -1,0 +1,88 @@
+Metric Boy
+
+http://www.gamasutra.com/view/feature/6155/hot_failure_tuning_gameplay_with_.php?print=1
+
+
+POST /api/v1/new_session/:game_id/:auth_token/
+  User Info
+  Return Session Key
+
+POST /api/v1/sessions/:game_id/:session_key/
+  Tag
+
+Example Session
+
+A
+
+{
+  "ts": 12345123,
+  "ip": "",
+  "tags": {
+    "games": [
+      {
+        "ts": "...",
+        "players": 3
+      }
+    ]
+  }
+}
+
+B
+
+{
+  "timeStart": 12345123,
+  "timeEnd": 12345124,
+  "ip": "",
+  "tags": [
+    {
+      "tag": "game",
+      "id": "...",
+      "ts": "...",
+      "players": ["rogue", "mage", "mage"],
+      "length": 100,
+      "winner": "rogue"
+    },
+    {
+      "tag": "player-death",
+      "game_id": "...",
+      "ts": "...",
+      "player": "",
+      "killedByPlayer": "",
+      "killedByAction": "",
+      "timeAlive": 11
+    }
+  ]
+}
+
+Sessions
+  group sessions by day
+  count
+
+
+Daily Active Users
+  group sessions by day, filter into unique users
+  count
+
+Average players per game
+  get 'game' tags grouped by day
+  average w/ 'players' prop
+
+First Session Length
+  group sessions by day, filter first for user
+
+Daily Active Users / Monthly Active Users
+
+Retention
+
+Conversion Rate
+
+Average Revenue Per Daily Active User
+
+ARPPU
+
+Churn
+
+Start, Fail and Complete
+
+Mission Start / Login
+

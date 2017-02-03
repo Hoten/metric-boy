@@ -1,0 +1,158 @@
+<% layout('layout') -%>
+
+<h1>Metrics for <%= game.name %></h1>
+<a href="/reports/export/<%= game._id %>/<%= game.authToken %>">Export Data</a>
+
+<h2>Game Id: <%= game._id %></h2>
+<h2>Auth Token: <%= game.authToken %></h2>
+
+<h3>Total Sessions: <%= sessions.length %></h3>
+
+<h3>Most Recent Session:</h3>
+<% if (mostRecentSession) { %>
+  <pre><%= JSON.stringify(mostRecentSession, null, 2) %></pre>
+<% } %>
+
+<h3>Group data points by (by day is recommended):</h3>
+<a href="?time=month">month</a>
+<a href="?time=day">day</a>
+<a href="?time=hour">hour</a>
+<a href="?time=minute">minute</a>
+<a href="?time=second">second</a>
+
+<h3>Games Played:</h3>
+<div class="report-graph" id="visualization3"></div>
+<script type="text/javascript">
+  var container = document.getElementById('visualization3');
+
+  var gamesPlayed = <%- JSON.stringify(gamesPlayed) %>;
+  var items = [];
+
+  for (var i = 0; i < gamesPlayed.length; i++) {
+    var dataPoint = gamesPlayed[i];
+
+    items.push({
+      x: dataPoint._id,
+      y: dataPoint.count
+    });
+  }
+
+  var dataset = new vis.DataSet(items);
+  var options = {
+  };
+  var graph2d = new vis.Graph2d(container, dataset, options);
+</script>
+
+<h3>Wins Per Class:</h3>
+<div class="report-graph" id="visualization4"></div>
+<script type="text/javascript">
+  var container = document.getElementById('visualization4');
+
+  var winsPerClass = <%- JSON.stringify(winsPerClass) %>;
+  var items = [];
+  var groupId = 0;
+  var groups = new vis.DataSet();
+
+  for (var groupName in winsPerClass) {
+    var group = winsPerClass[groupName];
+    
+    for (var i = 0; i < group.length; i++) {
+      var dataPoint = group[i];
+
+      items.push({
+        x: dataPoint._id,
+        y: dataPoint.count,
+        group: groupId
+      });
+    }
+
+    groups.add({
+      id: groupId,
+      content: groupName
+    });
+
+    groupId++;
+  }
+
+  var dataset = new vis.DataSet(items);
+  var options = {
+    legend: true,
+    style: 'bar',
+    barChart: {
+      sideBySide: true
+    }
+  };
+  var graph2d = new vis.Graph2d(container, dataset, options, groups);
+</script>
+
+<h3>Average Session Time (s):</h3>
+<div class="report-graph" id="visualization5"></div>
+<script type="text/javascript">
+  var container = document.getElementById('visualization5');
+
+  var avgSessionTime = <%- JSON.stringify(avgSessionTime) %>;
+  var items = [];
+
+  for (var i = 0; i < avgSessionTime.length; i++) {
+    var sessionGroup = avgSessionTime[i];
+
+    items.push({
+      x: sessionGroup._id,
+      y: sessionGroup.count
+    });
+  }
+
+  var dataset = new vis.DataSet(items);
+  var options = {
+
+  };
+  var graph2d = new vis.Graph2d(container, dataset, options);
+</script>
+
+<h3>Sessions started:</h3>
+<div class="report-graph" id="visualization"></div>
+<script type="text/javascript">
+  var container = document.getElementById('visualization');
+
+  var sessionsGrouped = <%- JSON.stringify(sessionsGrouped) %>;
+  var items = [];
+
+  for (var i = 0; i < sessionsGrouped.length; i++) {
+    var sessionGroup = sessionsGrouped[i];
+
+    items.push({
+      x: sessionGroup._id,
+      y: sessionGroup.count
+    });
+  }
+
+  var dataset = new vis.DataSet(items);
+  var options = {
+
+  };
+  var graph2d = new vis.Graph2d(container, dataset, options);
+</script>
+
+<h3>Daily Active Users:</h3>
+<div class="report-graph" id="visualization2"></div>
+<script type="text/javascript">
+  var container = document.getElementById('visualization2');
+
+  var dailyActiveUsers = <%- JSON.stringify(dailyActiveUsers) %>;
+  var items = [];
+
+  for (var i = 0; i < dailyActiveUsers.length; i++) {
+    var dataPoint = dailyActiveUsers[i];
+
+    items.push({
+      x: dataPoint._id,
+      y: dataPoint.count
+    });
+  }
+
+  var dataset = new vis.DataSet(items);
+  var options = {
+
+  };
+  var graph2d = new vis.Graph2d(container, dataset, options);
+</script>

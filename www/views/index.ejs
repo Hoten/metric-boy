@@ -1,0 +1,35 @@
+<% layout('layout') -%>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>Metric Boy</h1>
+    <p>A simple way to track metrics for your game.</p>
+  </div>
+</div>
+
+<div class="container">
+  <h3>Make a new session</h3>
+  <pre>POST /new_session/:gameId/:authToken</pre>
+
+  <h3>Tag session data</h3>
+  <pre>POST /tag/:gameId/:authToken/:sessionId
+{
+  "tag": "kill",
+  "playerKilled": "mage",
+  "killedBy": "thief"
+}</pre>
+
+  <h3>End session</h3>
+  <pre>POST /end_session/:gameId/:authToken/:session_id</pre>
+
+  <h2>Get A Game Token</h2>
+
+  <form action="/api/v1/new_game" method="post" accept-charset="utf-8">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" name="name">
+    </div>
+    
+    <button class="submit-btn" type="submit">Get Game Token</button>
+  </form>
+</div>
